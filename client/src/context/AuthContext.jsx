@@ -12,7 +12,8 @@ export const AuthProvider = ({ children }) => {
 
   const persist = (data) => {
     if (data?.token) localStorage.setItem('token', data.token);
-    const { token: _t, ...safe } = data || {};
+    const safe = { ...(data || {}) };
+    delete safe.token;
     localStorage.setItem('user', JSON.stringify(safe));
     setUser(safe);
   };

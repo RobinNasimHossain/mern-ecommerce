@@ -28,7 +28,7 @@ export default function Orders() {
       <h1 className="mb-6 text-2xl font-bold">My orders</h1>
       {orders.length === 0 ? (
         <div className="card p-8 text-center text-gray-500">
-          You haven't placed any orders yet.{' '}
+          You haven&apos;t placed any orders yet.{' '}
           <Link to="/" className="text-brand-700 underline">
             Start shopping
           </Link>
