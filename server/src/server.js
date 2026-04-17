@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -39,6 +41,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/stripe', stripeRoutes);
+
+// Serve built client when `client/dist` exists (single-origin deployment).
+const clientDist = path.resolve(__dirname, '../../client/dist');
+if (fs.existsSync(path.join(clientDist, 'index.html'))) {
+  app.use(express.static(clientDist));
+  app.get(/^\/(?!api(\/|$)).*/, (req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
